@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from ajaxsign.models import Sign,Otp_match
-# Register your models here.
+from ajaxsign.models import Sign,Otp_match,Electonics,Mobiles,Mobile_Brand,Mobile_Model,Laptop_Brand,Laptop_Model,Laptops
+mymodels=[Sign,Otp_match,Electonics,Mobiles,Mobile_Brand,Mobile_Model,Laptop_Brand,Laptop_Model,Laptops]
 
-admin.site.register(Sign)
-admin.site.register(Otp_match)
+admin.site.register(mymodels)
+

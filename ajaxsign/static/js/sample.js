@@ -12,9 +12,12 @@ function signup() {
     var pwd = document.getElementById('pwd').value;
     var email = document.getElementById('email').value;
     var contact = document.getElementById('contact').value;
-    var profile_picture = document.getElementById('profile_picture').value;
-    alert(fname);
-    alert(profile_picture);
+    var profile_picture=document.getElementById('profile_picture').files;
+    alert("hiiiiiiiiiiiiiiio")
+//    var profile_picture = document.getElementById('profile_picture').files[0].name;
+//    var profile_picture = new FormData($('#profile_picture').get(0));
+//    var profile_picture=document.getElementById('profile_picture').get(0);
+//    alert(profile_picture)
 
     $.ajax({
         url: '/signup/validate_username/',
@@ -26,14 +29,17 @@ function signup() {
             'uname': uname,
             'contact': contact,
             'pwd': pwd,
-            'profile_picture': profile_picture,
+//            'profile_picture': profile_picture,
 
 
         },
         dataType: 'json',
+//        contentType: 'multipart/form-data',
+//        processData: false,
+//        contentType: false,
         success: function (contxt) {
-                console.log(contxt)
-                alert("Successfully Signup");
+                 alert('success');
+                 console.log(contxt)
                 if(contxt.success==true){
                     window.location.href = 'Otp';
 
@@ -50,41 +56,6 @@ function signup() {
 }
 
 
-
-// JSON.stringify(fname);
-// JSON.stringify(lname);
-// JSON.stringify(uname);
-// JSON.stringify(pwd);
-// JSON.stringify(email);
-// JSON.stringify(contact);
-
-// callFacebook();
-// $.ajax({
-//     url: '/login/login',
-//     type: 'POST', // This is the default though, you don't actually need to always mention it
-//     data:{ "fname":fname,"lname":lname,"uname":uname,"pwd":pwd,"email":email,"contact":contact},
-//     success: function (data) {
-//         alert("success")
-//     }
-//
-// });
-// function js(){
-//     alert("eryi");
-//   $.ajax({
-//         url: '/signup/ajax/validate_username/',
-//         type: 'POST',
-//         data: {
-//           'email': email
-//         },
-//         dataType: 'json',
-//         success: function (sign) {
-//           if (sign.is_taken) {
-//             alert("A user with this username already exists.");
-//           }
-//
-//         }
-//       });
-
 function Otp() {
     var otp = document.getElementById('otp').value;
     var email = document.getElementById('email').value;
@@ -100,7 +71,7 @@ function Otp() {
             {
                 alert("Successful");
                 console.log(contxt)
-                window.location.href='/signup/profile/';
+                window.location.href='/signup/loginajax/';
             }
         }
     });

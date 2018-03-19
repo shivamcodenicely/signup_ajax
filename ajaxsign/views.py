@@ -1,20 +1,89 @@
 from django.shortcuts import render
-from .models import Sign,Otp_match
-from django.core.mail import EmailMessage
-from django.template import Context
-from django.contrib.auth import authenticate
-from django.core.mail import send_mail
+from .models import Sign,Otp_match,Electonics,Mobiles,Mobile_Brand,Mobile_Model,Laptop_Brand,Laptop_Model
 from django.http import HttpResponse,response
 from django.http import JsonResponse
 import random
+from django.core.mail import send_mail
 from django.shortcuts import render_to_response
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
-
+from django.db import IntegrityError
+from django.core.files.uploadedfile import SimpleUploadedFile
+import os
 
 def p(request):
     return render(request,'index.html')
+
+
+def n(request):
+    contxt={}
+    if request.method=='GET':
+        email=request.GET.get('Email')
+    form=Sign.objects.get(email=email)
+    email=form.email
+    fname=form.fname
+    lname=form.lname
+    contact=form.contact
+    contxt['email'] = email
+    contxt['fname'] = fname
+    contxt['lname'] = lname
+    contxt['contact'] = contact
+
+    product=Electonics.objects.all()
+    new=Electonics()
+    prod_dict={}
+    product_type=[]
+    product_id=[]
+    for i in product:
+        product_type.append(i.product_name)
+        product_id.append(i.id)
+        prod_dict = {'id':i.id,'name':i.product_name}
+        prod_dict['name']=i.product_name
+        print(prod_dict)
+        contxt['product_name'] = product_type
+
+
+    product1 = Mobiles.objects.all()
+    mobile_dict={}
+    mobile_list1 = []
+    for j in product1:
+
+        mobile_dict={
+            'id':j.id,
+            'name':j.brand_name
+        }
+        print(mobile_dict)
+        mobile_list1.append(mobile_dict)
+
+    print(mobile_list1)
+    print(mobile_list1[0]['name'])
+
+    mobile_dict3={}
+    product3=Mobile_Brand.objects.all()
+
+    model_list2 = []
+    for k in product3:
+        mobile_dict3 = {
+            'id': k.id,
+            'name': k.model_name
+
+        }
+        model_list2.append(mobile_dict3)
+    print(model_list2)
+
+
+
+
+
+
+
+
+
+
+    return render(request,'profile.html',{'contxt':contxt,
+                                          'mobile_dict':mobile_dict,
+                                          'mobile_dict3':mobile_dict3,'mobile_list1':mobile_list1})
 
 def signup(request):
     return render(request,
@@ -25,18 +94,51 @@ def signup(request):
 def validate_username(request):
     contxt={}
     if request.method=="POST":
+
         email = request.POST.get('email')
         fname =request.POST.get('fname')
         lname=request.POST.get('lname')
         uname=request.POST.get('uname')
         pwd=request.POST.get('pwd')
         contact=request.POST.get('contact')
-        profile_picture=request.POST.get('profile_picture')
-        print(profile_picture)
-        emp = Sign.objects.create(fname=fname, lname=lname, username=uname, password=pwd, email=email,
-                                  contact=contact, profile_picture=profile_picture)
-        emp.save()
+        # print("hello")
+        profile_picture=request.FILES('profile_picture')
+        # print("not")
+        # folder='media/'
+        # full_path=os.path.join(folder,profile_picture)
+        #
+        # f=open(folder+profile_picture+'w')
+        # file_content=request.FILES.get('profile_picture').read()
+        # f.write(file_content)
+        # f.close()
+        #
+        # print("@W@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        # print(f)
+        #
+        #
+        # image = request.FILES.get('file').name
+        # folder = 'media' + '/signature/'
+        # full_filename = os.path.join(folder, image)
+        #
+        # fout = open(folder + image, 'w')
+        #
+        # file_content = request.FILES.get('file').read()
+        #
+        # fout.write(file_content)
+        #
+        # fout.close()
 
+
+
+
+
+        try:
+            emp = Sign.objects.create(fname=fname, lname=lname, username=uname, password=pwd, email=email,
+                                    contact=contact,profile_picture=profile_picture)
+
+            emp.save()
+        except IntegrityError:
+            return JsonResponse({"success": False,})
         otp2 = random.randrange(1000,9999)
         otp_save = Otp_match.objects.create(otp=otp2, user=emp)
         otp_save.save()
@@ -53,7 +155,8 @@ def validate_username(request):
         send_mail('OTP Email', 'your One Time Password is '+ str(otp2), 'shivam.mittal38@gmail.com', [email])
 
 
-        request.session['email']=email
+        # request.session['email']=email
+
     return JsonResponse({"email":email,"success":True,"otp":otp2})
 
 def Otp(request):
@@ -88,7 +191,7 @@ def new2(request):
     if request.method=='POST':
         data1 = Sign.objects.all()
     get_email=request.POST.get("email")
-    get_contact = request.POST.get("contact_no")
+    # get_contact = request.POST.get("contact_no")
 
     reset_pass1=Sign.objects.get(email=get_email)
     # emailid=Sign.objects.get(email=get_email)
@@ -105,18 +208,22 @@ def new2(request):
 @csrf_exempt
 def validate(request):
     dict={}
-    if request.method=="GET":
-        print("hello")
-        email = request.GET.get('email')
-        get_pwd = request.GET.get('pwd')
+    if request.method=="POST":
+        email = request.POST.get('email')
+        get_pwd = request.POST.get('pwd')
         data = Sign.objects.get(email=email)
         email=data.email
         pwd=data.password
+        print(pwd)
+        print(get_pwd)
         if(get_pwd==pwd):
             request.session['email'] = email
+            return JsonResponse({"email": email, "success": True})
         else:
-            print("invalid")
-    return JsonResponse({"email": email, "success": True,})
+            print("ppppppppp")
+            return JsonResponse({"success": False})
+
+    # return JsonResponse({"email": email, "success": True})
 
 
 def profile(request):
@@ -127,22 +234,6 @@ def otp_validate(request):
     if request.method == "POST":
             otp1 = request.POST.get("otp")
             get_email=request.POST.get("email")
-            print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
-            # data1=Otp_match.objects.get(otp=otp1)
-            # data1=Sign.objects.filter(email=get_email)
-            # data1 = Otp_match.objects.select_related().filter(email=get_email)
-            # data1=Sign.filter(email=Otp_match.objects.filter(email=get_email))
-            # data2 = Sign.objects.filter(email=get_email).values_list('email', flat=True)
-            # data1= Otp_match.objects.filter(otp=data2)
-            # get = Sign.objects.get(email=get_email)
-            # data1 = get.Otp_match.objects.all()
-
-            # data1 = Sign.objects.get(email=get_email)
-            # data2= Otp_match.objects.get(otp=otp1)
-
-            # user = User.objects.get(id=1)
-            # author = Author.objects.get(user)
-            #
             data1 = Sign.objects.get(email=get_email)
             data2=Otp_match.objects.get(otp=otp1, user=data1)
     return JsonResponse({"success":True,})

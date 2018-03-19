@@ -1,121 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
-{% load staticfiles %}
-<title>Login V2</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.ico' %}"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-<head>
-    <meta charset="UTF-8">
-    <title>HOME</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<script type="text/javascript" src ="../static/js/sample.js "></script>
-</head>
-
-<body>
-<div class="limiter">
-    <div class="container-login100">
-			<div class="wrap-login100">
-
-<h1>Hello World!</h1>
-<p>
-    Welcome to code Nicely
-</p>
-
+<html>
+<title>Profile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.w3-sidebar a {font-family: "Roboto", sans-serif}
+body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+</style>
+<body class="content" style="max-width:1200px">
 
-<div class="card">
-  <img src= "{% static '/img/index.jpeg' %}" alt="{{ Name }}"  height="200" width="300" >
-{#  <a href="#"><i class="fa fa-twitter"></i></a>#}
-{#  <a href="#"><i class="fa fa-linkedin"></i></a>#}
-{#  <a href="#"><i class="fa fa-facebook"></i></a>#}
+<!-- Sidebar/menu -->
+<nav class="sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+  <div class="container w3-display-container w3-padding-16">
+    <i onclick="close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+	  <h3 class="w3-wide"><b>Welcome {{contxt.fname}}</b></h3>
+							Email:{{contxt.email}}
+							Contact:{{contxt.contact}}
+
+  </div>
+  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
+    <a href="#" class="w3-bar-item w3-button">Electonics</a>
+    <!--&lt;!&ndash;<a href="#" class="w3-bar-item w3-button">Dresses</a>-->
+
+    <a onclick="myAccFunc()" class="w3-button w3-block w3-white w3-left-align" id="1">
+      {{contxt.product_name.0}} <i class="fa fa-caret-down"></i>
+    </a>
+
+    <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+
+{% for i in mobile_list1 %}
+  {{i.name.0}}<br/>
+  {{i.name.1}}<br/>
+  {{i.name}}<br/>
+  {{i.name}}<br/>
+      {% endfor %}
+      <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>{{mobile_dict.name}}</a>
+      <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>{{mobile_dict.name}}</a>
+
+    </div>
+	  <a onclick="myAccFunc()" class="w3-button w3-block w3-white w3-left-align" id="2">
+      {{contxt.product_name.1}} <i class="fa fa-caret-down"></i>
+    </a>
+	  <a onclick="myAccFunc()"  class="w3-button w3-block w3-white w3-left-align" id="3">
+      {{contxt.product_name.2}} <i class="fa fa-caret-down"></i>
+    </a>
+	  <a onclick="myAccFunc()"  class="w3-button w3-block w3-white w3-left-align" id="4">
+      {{contxt.product_name.3}} <i class="fa fa-caret-down"></i>
+    </a>
+
+
+
+  </div>
+</nav>
+
+<!-- Top menu on small screens -->
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+  <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+</header>
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px">
+
+  <!-- Push down content on small screens -->
+  <div class="w3-hide-large" style="margin-top:83px"></div>
+
+  <!-- Top header -->
+  <header class="w3-container w3-xlarge">
+    <p class="w3-left">Electronics</p>
+    <p class="w3-right">
+      <i class="fa fa-shopping-cart w3-margin-right"></i>
+      <i class="fa fa-search"></i>
+    </p>
+  </header>
+
 </div>
 
-Name: {{ Name }} <br>
-<br>
-EMail_ID: {{ email }} <br>
-<br>
-User_name: {{ username }} <br>
-<br>
-Contact: {{ contact }} <br>
-<br>
-<p>
+
+<script>
+
+function myAccFunc() {
+    var x = document.getElementById("demoAcc");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+
+document.getElementById("1").click();
 
 
-{#    {% for image in profile_picture %}#}
-{#    <img class="gallery-image" src="{{media_url}}{{ image.model_pic }}"#}
-{#{% endfor %}#}
+</script>
 
-</p>
-<form class="well form-horizontal" action="login" method="post"  id="contact_form">
-<fieldset>
-{#<div class="form-group" action="POST">#}
-{#  <label class="col-md-4 control-label"></label>#}
-{#  <div class="col-md-4"><br>#}
-{#      {% csrf_token %}#}
-{#    <button type="Log Out" class="btn btn-warning"  >LOG OUT &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>#}
-{#  </div>#}
-{#</div>#}
-
-    <div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-                            {% csrf_token %}
-							<button class="login100-form-btn">
-								Logout
-							</button>
-						</div>
-					</div>
-
-					<div class="text-center p-t-115">
-                    </div>
-
-
-{#    <span class="psw">Forgot <a href="forget">password?</a></span>#}
-
-
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-</fieldset>
-</form>
-<div id="dropDownSelect1"></div>
-
-<!--===============================================================================================-->
-	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
-	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
-<!--===============================================================================================-->
-	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
-	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
-<!--===============================================================================================-->
-	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
-<!--===============================================================================================-->
-	<script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

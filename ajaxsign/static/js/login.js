@@ -5,7 +5,7 @@ function login() {
 
     $.ajax({
         url: '/signup/validate/',
-        type: 'GET',
+        type: 'POST',
         data: {
             'email': email, 'pwd': pwd,
         },
@@ -14,7 +14,18 @@ function login() {
             {
                 console.log(contxt)
                 alert("Successful");
-                window.location.href='profile';
+                console.log(contxt.success)
+                Email=contxt.email
+                console.log(Email)
+                if(contxt.success==true){
+
+
+                    window.location.href='m?Email='+email;
+                    }
+
+                else{
+                    alert("Email ID OR Password Incorrect")
+                }
             }
 
         }
@@ -44,6 +55,5 @@ function forget() {
 
     });
 }
-
 
 

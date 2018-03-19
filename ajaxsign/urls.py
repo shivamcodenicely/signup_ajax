@@ -18,4 +18,5 @@ urlpatterns=[
     url('profile/',views.profile,name='profile'),
     url('otp_validate/',views.otp_validate,name='otp_validate'),
     url('Otp/p',views.p,name='p'),
+    url('m/',views.n,name='n'),
 ]

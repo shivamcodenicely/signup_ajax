@@ -1,0 +1,31 @@
+function elect_mob() {
+    alert("hellloooooooooo");
+    var contxt= document.getElementById('contxt').value;
+    alert(contxt)
+
+    $.ajax({
+        url: '/signup/electmob/',
+        type: 'GET',
+        data: {
+            'contxt':contxt
+        },
+        dataType: 'json',
+        success: function (data) {
+            {
+                console.log(data)
+                alert("Successful");
+                console.log(data.success)
+                if(data.success==true){
+
+
+//                    window.location.href='m?Email='+email;
+                    }
+
+                else{
+                    alert("Email ID OR Password Incorrect")
+                }
+            }
+
+        }
+    });
+}
