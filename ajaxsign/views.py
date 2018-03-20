@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Sign,Otp_match,Electonics,Mobiles,Mobile_Brand,Mobile_Model,Laptop_Brand,Laptop_Model
+from .models import Sign,Otp_match,Electonics,Mobiles,Mobile_Brand,Laptops,Mobile_Model,Laptop_Brand,Laptop_Model
 from django.http import HttpResponse,response
 from django.http import JsonResponse
 import random
@@ -14,6 +14,9 @@ import os
 
 def p(request):
     return render(request,'index.html')
+
+def z(request):
+    return render(request,'new.html')
 
 
 def n(request):
@@ -31,59 +34,87 @@ def n(request):
     contxt['contact'] = contact
 
     product=Electonics.objects.all()
-    new=Electonics()
-    prod_dict={}
-    product_type=[]
-    product_id=[]
-    for i in product:
-        product_type.append(i.product_name)
-        product_id.append(i.id)
-        prod_dict = {'id':i.id,'name':i.product_name}
-        prod_dict['name']=i.product_name
-        print(prod_dict)
-        contxt['product_name'] = product_type
+    # print(product)
 
+    mobile_list=[]
+    for i in product:
+        product_dict = {'id':i.id,'name':i.product_name}
+        mobile_list.append(product_dict)
 
     product1 = Mobiles.objects.all()
-    mobile_dict={}
     mobile_list1 = []
+
     for j in product1:
+        prod = Mobiles.objects.get(id=j.id)
 
-        mobile_dict={
-            'id':j.id,
-            'name':j.brand_name
-        }
-        print(mobile_dict)
+        mobile_dict= {'id':j.id,'name':j.brand_name, 'pid':prod.mobile_user.id}
         mobile_list1.append(mobile_dict)
+    # print(mobile_list1)
 
-    print(mobile_list1)
-    print(mobile_list1[0]['name'])
-
-    mobile_dict3={}
     product3=Mobile_Brand.objects.all()
-
-    model_list2 = []
+    mobile_list2 = []
     for k in product3:
-        mobile_dict3 = {
-            'id': k.id,
-            'name': k.model_name
 
-        }
-        model_list2.append(mobile_dict3)
-    print(model_list2)
+        prod = Mobile_Brand.objects.get(id=k.id)
+        mobile_dict3 = {'id': k.id,'name': k.model_name,'pid':prod.mobile_brand_user.id}
+        mobile_list2.append(mobile_dict3)
+    # print(mobile_list2)
 
+    laptop_list=[]
+    product4=Laptops.objects.all()
 
+    for l in product4:
+        prod = Laptops.objects.get(id=l.id)
+        laptop_dict={'id':l.id,'name':l.brand_name,'pl_id':prod.laptop_user.id}
+        laptop_list.append(laptop_dict)
+    # print(laptop_list)
 
+    product5=Laptop_Brand.objects.all()
+    laptop_list1=[]
+    for m in product5:
+        prod = Laptop_Brand.objects.get(id=l.id)
+        laptop_dict1={'id':m.id, 'name':m.brand_name,'pl_id':prod.laptop_brand_user.id }
+        laptop_list1.append(laptop_dict1)
 
-
-
-
-
-
-
+    product6=Laptop_Model.objects.all()
+    laptop_list2=[]
+    for n in product6:
+        laptop_dict2={'id':n.id,'name':n.model_name}
+        laptop_list2.append(laptop_dict2)
     return render(request,'profile.html',{'contxt':contxt,
                                           'mobile_dict':mobile_dict,
-                                          'mobile_dict3':mobile_dict3,'mobile_list1':mobile_list1})
+                                          'mobile_dict3':mobile_dict3,
+                                          'mobile_list1':mobile_list1,
+                                          'mobile_list':mobile_list,
+                                          'mobile_list2':mobile_list2,
+                                          'laptop_list':laptop_list,
+                                          'laptop_list1':laptop_list1,
+                                          'laptop_list2':laptop_list2})
+
+
+
+@csrf_exempt
+def jprod1(requset):
+    try:
+
+        product = Electonics.objects.all()
+        mobile_list = []
+        for i in product:
+            product_dict = {'id': i.id, 'name': i.product_name}
+            mobile_list.append(product_dict)
+    except Exception as e:
+        print(e)
+    return JsonResponse({"success": True,'mobile_list':mobile_list})
+
+
+
+def profile1(request):
+    if request.method=="GET":
+        mobile_list=request.GET.get('mobile_list')
+
+        return render(request,'profile1.html',{'mobile_list':mobile_list})
+
+
 
 def signup(request):
     return render(request,

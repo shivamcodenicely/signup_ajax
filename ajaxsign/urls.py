@@ -3,11 +3,11 @@ from .import views
 
 
 urlpatterns=[
+    
     url(r'^$',views.signup,name='signup'),
     # url('new1',views.new1,name='new1'),
     url('Otp/',views.Otp,name='Otp'),
     # url('login/',views.login,name='login'),
-    # url('authn',views.authn,name='authn'),
     url('validate_username/', views.validate_username, name='validate_username'),
     url('loginajax',views.loginajax,name='loginajax'),
     # url('signajax',views.signajax,name='signajax'),
@@ -19,4 +19,7 @@ urlpatterns=[
     url('otp_validate/',views.otp_validate,name='otp_validate'),
     url('Otp/p',views.p,name='p'),
     url('m/',views.n,name='n'),
+    url('z/',views.z,name='z'),
+    url('jprod1',views.jprod1,name="jprod1"),
+    url('profile1/',views.profile1,name="profile1"),
 ]
